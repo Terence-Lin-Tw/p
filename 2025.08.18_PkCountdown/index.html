@@ -11,31 +11,81 @@
             box-sizing: border-box;
         }
 
+        /* Light Mode Variables */
+        :root.light-mode {
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --container-bg: #ffffff;
+            --container-shadow: rgba(0,0,0,0.1);
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --calendar-bg: #f8f9fa;
+            --month-bg: #ffffff;
+            --month-shadow: rgba(0,0,0,0.1);
+            --day-hover: #e9ecef;
+            --today-bg: #28a745;
+            --today-text: #ffffff;
+            --range-bg: linear-gradient(135deg, #667eea, #764ba2);
+            --range-text: #ffffff;
+            --target-bg: #dc3545;
+            --target-text: #ffffff;
+        }
+
+        /* Dark Mode Variables */
+        :root.dark-mode {
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --container-bg: #2d2d44;
+            --container-shadow: rgba(0,0,0,0.3);
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #888888;
+            --calendar-bg: #1e1e2f;
+            --month-bg: #252540;
+            --month-shadow: rgba(0,0,0,0.2);
+            --day-hover: #3a3a55;
+            --today-bg: #00d4aa;
+            --today-text: #1a1a2e;
+            --range-bg: linear-gradient(135deg, #4facfe, #00f2fe);
+            --range-text: #1a1a2e;
+            --target-bg: #ff6b6b;
+            --target-text: #ffffff;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--bg-gradient);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            transition: background 0.5s ease;
         }
 
         .container {
-            background: white;
+            background: var(--container-bg);
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px var(--container-shadow);
             padding: 40px;
             text-align: center;
             max-width: 500px;
             width: 100%;
+            transition: all 0.5s ease;
         }
 
         h1 {
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 30px;
             font-size: 2.5em;
             background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: color 0.5s ease;
+        }
+
+        .dark-mode h1 {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -49,11 +99,12 @@
         }
 
         .time-unit {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            background: var(--range-bg);
+            color: var(--range-text);
             padding: 20px 15px;
             border-radius: 15px;
             min-width: 80px;
+            transition: all 0.5s ease;
         }
 
         .time-value {
@@ -69,10 +120,11 @@
         }
 
         .calendar {
-            background: #f8f9fa;
+            background: var(--calendar-bg);
             border-radius: 15px;
             padding: 20px;
             margin-top: 30px;
+            transition: all 0.5s ease;
         }
 
         .two-month-view {
@@ -83,21 +135,21 @@
         }
 
         .month-container {
-            background: white;
+            background: var(--month-bg);
             border-radius: 10px;
             padding: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px var(--month-shadow);
+            transition: all 0.5s ease;
         }
 
         .month-title {
             font-size: 1.1em;
             font-weight: bold;
-            color: #333;
+            color: var(--text-primary);
             text-align: center;
             margin-bottom: 15px;
+            transition: color 0.5s ease;
         }
-
-
 
         .calendar-grid {
             display: grid;
@@ -108,9 +160,10 @@
 
         .day-header {
             font-weight: bold;
-            color: #666;
+            color: var(--text-secondary);
             padding: 10px 5px;
             font-size: 0.9em;
+            transition: color 0.5s ease;
         }
 
         .calendar-day {
@@ -122,32 +175,38 @@
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 500;
+            color: var(--text-primary);
         }
 
         .calendar-day:hover {
-            background: #e9ecef;
+            background: var(--day-hover);
         }
 
         .calendar-day.other-month {
-            color: #ccc;
+            color: var(--text-muted);
         }
 
         .calendar-day.today {
-            background: #28a745;
-            color: white;
+            background: var(--today-bg);
+            color: var(--today-text);
             font-weight: bold;
         }
 
         .calendar-day.in-range {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            background: var(--range-bg);
+            color: var(--range-text);
         }
 
         .calendar-day.target-date {
-            background: #dc3545;
-            color: white;
+            background: var(--target-bg);
+            color: var(--target-text);
             font-weight: bold;
             animation: pulse 2s infinite;
+        }
+
+        .stats-text {
+            color: var(--text-secondary);
+            transition: color 0.5s ease;
         }
 
         @keyframes pulse {
@@ -162,24 +221,24 @@
                 padding: 30px;
                 margin: 10px;
             }
-            
+
             h1 {
                 font-size: 2em;
                 margin-bottom: 25px;
             }
-            
+
             .two-month-view {
                 gap: 15px;
             }
-            
+
             .month-container {
                 padding: 12px;
             }
-            
+
             .calendar-grid {
                 gap: 6px;
             }
-            
+
             .calendar-day {
                 font-size: 0.9em;
             }
@@ -190,80 +249,67 @@
             body {
                 padding: 10px;
             }
-            
+
             .container {
                 padding: 20px;
                 border-radius: 15px;
                 max-width: 100%;
             }
-            
+
             h1 {
                 font-size: 1.8em;
                 margin-bottom: 20px;
             }
-            
+
             .countdown {
                 flex-wrap: wrap;
                 gap: 10px;
                 margin-bottom: 30px;
             }
-            
+
             .time-unit {
                 min-width: 70px;
                 padding: 15px 10px;
                 border-radius: 12px;
             }
-            
+
             .time-value {
                 font-size: 1.6em;
             }
-            
+
             .time-label {
                 font-size: 0.75em;
             }
-            
+
             .calendar {
                 padding: 15px;
                 border-radius: 12px;
             }
-            
-            .calendar-header {
-                margin-bottom: 15px;
-            }
-            
-            .month-year {
-                font-size: 1.1em;
-            }
-            
-            .nav-btn {
-                padding: 6px 10px;
-                font-size: 0.9em;
-            }
-            
+
             .two-month-view {
                 gap: 15px;
                 margin-top: 15px;
             }
-            
+
             .month-container {
                 padding: 10px;
                 border-radius: 8px;
             }
-            
+
             .month-title {
                 font-size: 1em;
                 margin-bottom: 10px;
             }
-            
+
             .calendar-grid {
                 gap: 4px;
             }
-            
+
             .day-header {
                 padding: 8px 3px;
                 font-size: 0.8em;
             }
-            
+
             .calendar-day {
                 font-size: 0.85em;
                 border-radius: 6px;
@@ -276,27 +322,23 @@
             .container {
                 padding: 15px;
             }
-            
+
             h1 {
                 font-size: 1.5em;
             }
-            
+
             .time-unit {
                 min-width: 60px;
                 padding: 12px 8px;
             }
-            
+
             .time-value {
                 font-size: 1.4em;
             }
-            
+
             .calendar-day {
                 min-height: 30px;
                 font-size: 0.8em;
-            }
-            
-            .month-year {
-                font-size: 1em;
             }
         }
 
@@ -306,11 +348,11 @@
                 max-width: 600px;
                 padding: 50px;
             }
-            
+
             .calendar-grid {
                 gap: 10px;
             }
-            
+
             .calendar-day {
                 min-height: 40px;
             }
@@ -322,20 +364,20 @@
                 max-width: 700px;
                 padding: 60px;
             }
-            
+
             h1 {
                 font-size: 3em;
             }
-            
+
             .time-unit {
                 min-width: 100px;
                 padding: 25px 20px;
             }
-            
+
             .time-value {
                 font-size: 2.2em;
             }
-            
+
             .calendar-day {
                 min-height: 45px;
             }
@@ -346,10 +388,10 @@
     <div class="container">
         <h1>Money Countdown</h1>
 
-        <div style="font-size: 0.7em; color: #666; margin: 10px 0 30px 0; font-family: monospace;">
+        <div class="stats-text" style="font-size: 0.7em; margin: 10px 0 30px 0; font-family: monospace;">
             (Min, Max): (34.8, 63.8); Avg(Min, Max): (1.2, 2.2)
         </div>
-        
+
         <div class="countdown">
             <div class="time-unit" style="min-width: 120px;">
                 <span class="time-value" id="days">00</span>
@@ -388,9 +430,22 @@
     </div>
 
     <script>
+        // 🌙 THEME FLAG: Change this to switch themes
+        // Set to true for dark mode, false for light mode
+        const USE_DARK_MODE = true;
+
+        // Apply theme on page load
+        function applyTheme() {
+            if (USE_DARK_MODE) {
+                document.documentElement.className = 'dark-mode';
+            } else {
+                document.documentElement.className = 'light-mode';
+            }
+        }
+
         // Set your target date here (YYYY, MM-1, DD, HH, MM, SS)
         const targetDate = new Date(2025, 8, 16, 23, 59, 59); // September 16, 2025
-        
+
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
         const today = new Date();
@@ -406,7 +461,7 @@
             now.setHours(0, 0, 0, 0);
             const target = new Date(targetDate);
             target.setHours(0, 0, 0, 0);
-            
+
             const distance = target.getTime() - now.getTime();
 
             if (distance < 0) {
@@ -421,7 +476,7 @@
         function generateCalendar(month, year) {
             // Generate first month
             generateSingleMonth(month, year, 'calendar1', 'month1Title');
-            
+
             // Generate second month
             const nextMonth = (month + 1) % 12;
             const nextYear = month === 11 ? year + 1 : year;
@@ -436,7 +491,7 @@
 
             const calendarGrid = document.getElementById(calendarId);
             const titleElement = document.getElementById(titleId);
-            
+
             titleElement.textContent = `${monthNames[month]} ${year}`;
 
             // Clear existing calendar days
@@ -458,7 +513,7 @@
 
                 const currentDate = new Date(year, month, day);
                 currentDate.setHours(0, 0, 0, 0);
-                
+
                 const targetDateOnly = new Date(targetDate);
                 targetDateOnly.setHours(0, 0, 0, 0);
 
@@ -481,9 +536,8 @@
             }
         }
 
-
-
         // Initialize
+        applyTheme();
         generateCalendar(currentMonth, currentYear);
         updateCountdown();
         // Update daily instead of every second since we only show days
