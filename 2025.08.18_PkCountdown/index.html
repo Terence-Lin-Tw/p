@@ -11,6 +11,17 @@
             box-sizing: border-box;
         }
 
+        /* **************** Force light mode **************** */
+        :root {
+            color-scheme: light;
+        }
+        * {
+            color-scheme: light;
+        }
+        html {
+            color-scheme: light only;
+        }
+
         /* Light Mode Variables */
         :root.light-mode {
             --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -432,7 +443,7 @@
     <script>
         // 🌙 THEME FLAG: Change this to switch themes
         // Set to true for dark mode, false for light mode
-        const USE_DARK_MODE = true;
+        const USE_DARK_MODE = !true;
 
         // Apply theme on page load
         function applyTheme() {
