@@ -418,9 +418,13 @@
         </div>
 
         <div class="countdown">
-            <div class="time-unit" style="min-width: 120px;">
+            <div class="time-unit">
                 <span class="time-value" id="days">00</span>
                 <div class="time-label">Days</div>
+            </div>
+            <div class="time-unit">
+                <span class="time-value" id="hours">00</span>
+                <div class="time-label">Hours</div>
             </div>
         </div>
 
@@ -484,19 +488,21 @@
 
         function updateCountdown() {
             const now = new Date();
-            now.setHours(0, 0, 0, 0);
             const target = new Date(targetDate);
-            target.setHours(0, 0, 0, 0);
 
             const distance = target.getTime() - now.getTime();
 
             if (distance < 0) {
                 document.getElementById('days').textContent = '0';
+                document.getElementById('hours').textContent = '0';
                 return;
             }
 
-            const days = Math.ceil(distance / (1000 * 60 * 60 * 24));
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
             document.getElementById('days').textContent = days.toString();
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
         }
 
         function generateCalendar(month, year) {
@@ -566,7 +572,7 @@
         applyTheme();
         generateCalendar(currentMonth, currentYear);
         updateCountdown();
-        // Update daily instead of every second since we only show days
+        // Update more frequently now that we show hours
         setInterval(updateCountdown, 60000); // Update every minute
     </script>
 </body>
