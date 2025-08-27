@@ -165,6 +165,15 @@
             animation: pulse 2s infinite;
         }
 
+        /* Hidden row styles */
+        .calendar-row {
+            display: contents;
+        }
+
+        .calendar-row.hidden {
+            display: none;
+        }
+
         .stats-text {
             color: #666666;
             transition: color 0.5s ease;
@@ -534,14 +543,23 @@
             titleElement.textContent = `${monthNames[month]} ${year}`;
 
             // Clear existing calendar days
-            const existingDays = calendarGrid.querySelectorAll('.calendar-day');
+            const existingDays = calendarGrid.querySelectorAll('.calendar-day, .calendar-row');
             existingDays.forEach(day => day.remove());
+
+            const targetDateOnly = new Date(targetDate);
+            targetDateOnly.setHours(0, 0, 0, 0);
+
+            // Determine if this is the first or second month
+            const isFirstMonth = calendarId === 'calendar1';
+
+            // Track all the days we'll create
+            const allDays = [];
 
             // Add empty cells for days before the first day of the month
             for (let i = 0; i < startingDayOfWeek; i++) {
                 const emptyDay = document.createElement('div');
                 emptyDay.className = 'calendar-day other-month';
-                calendarGrid.appendChild(emptyDay);
+                allDays.push(emptyDay);
             }
 
             // Add days of the current month
@@ -552,9 +570,6 @@
 
                 const currentDate = new Date(year, month, day);
                 currentDate.setHours(0, 0, 0, 0);
-
-                const targetDateOnly = new Date(targetDate);
-                targetDateOnly.setHours(0, 0, 0, 0);
 
                 // Check if it's today
                 if (currentDate.getTime() === today.getTime()) {
@@ -571,8 +586,32 @@
                     dayElement.classList.add('target-date');
                 }
 
-                calendarGrid.appendChild(dayElement);
+                allDays.push(dayElement);
             }
+
+            // Group days into weeks (rows of 7)
+            const weeks = [];
+            for (let i = 0; i < allDays.length; i += 7) {
+                weeks.push(allDays.slice(i, i + 7));
+            }
+
+            // Process each week
+            weeks.forEach(week => {
+                // Check if this week has any relevant days
+                const hasRelevantDays = week.some(day =>
+                    day.classList.contains('today') ||
+                    day.classList.contains('in-range') ||
+                    day.classList.contains('target-date')
+                );
+
+                // For first month: hide rows with no relevant days
+                // For second month: show all rows
+                if (!isFirstMonth || hasRelevantDays) {
+                    // Show this week - add all days directly to calendar
+                    week.forEach(day => calendarGrid.appendChild(day));
+                }
+                // If first month and no relevant days, we don't add this week to the calendar
+            });
         }
 
         // Initialize
